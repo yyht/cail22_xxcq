@@ -1,0 +1,4 @@
+{"predicate": "贩卖毒品", "subject_type": "人物", "object_type": {"a1": "毒品"}}
+{"predicate": "贩卖毒品给人", "subject_type": "人物", "object_type": {"a1": "人物"}}
+{"predicate": "持有毒品", "subject_type": "人物", "object_type": {"a1": "毒品"}}
+{"predicate": "非法容留摄入或注射某毒品", "subject_type": "人物", "object_type": {"a1": "人物"}}
