@@ -50,11 +50,21 @@ def deleteDuplicate_v1(input_dict_lst):
     return reduce(f, [[], ] + input_dict_lst)
 
 
+valid_sub_path = [
+    'unilm_roformer_large_v5.json',
+    'ie_baffine_v1.json',
+    'ie_baffine_v2.json',
+    'roformer_negative_learing.json'
+]
+
+
 # wr.write(json.dumps(
 #     {"articleId": "666", "sentId": "6", "entityMentions": [], "sentText": text, "relationMentions": spo_list},
 #     ensure_ascii=False))
 data_cnt = 0
 for sub_path in os.listdir(prediction_path):
+    if sub_path not in valid_sub_path:
+        continue
     print(os.path.join(prediction_path, sub_path), '=====')
     data_cnt += 1
     with open(os.path.join(prediction_path, sub_path),encoding="utf-8") as frobj:

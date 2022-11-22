@@ -3,10 +3,23 @@ import json
 import sys
 import numpy as np
 import torch.nn as nn
+from torch.utils.data import DataLoader
+import configparser
+import logging
+import torch
+import io
+import torch.nn.functional as F
+import random
+import numpy as np
+import time
+import math
+import datetime
+import torch.nn as nn
+import logging
 from models.gpNet import RawGlobalPointer, sparse_multilabel_categorical_crossentropy
 from transformers import BertTokenizerFast, BertModel,AutoModel,AutoConfig
 import configparser
-from gpNet_baffine import CoPredictor
+from models.gpNet_baffine import CoPredictor
 
 logging.basicConfig(format='%(asctime)s - %(levelname)s - %(name)s - %(message)s',
                     datefmt='%m/%d/%Y %H:%M:%S',
@@ -58,7 +71,7 @@ args_path = dict(dict(con.items('paths')), **dict(con.items("para")))
 model_path = "IDEA-CCNL/Erlangshen-Ubert-330M-Chinese"
 maxlen = con.getint('para', 'maxlen')
 batch_size = con.getint('para', 'batch_size')
-lr = con.getint('para', 'lr')
+lr = con.getfloat('para', 'lr')
 epochs = con.getint('para', 'epochs')
 seed = 42
 use_fgm = False
@@ -66,25 +79,10 @@ use_ema = False
 
 tokenizer = BertTokenizerFast.from_pretrained(model_path, do_lower_case=True,add_special_tokens=True)
 config = AutoConfig.from_pretrained(model_path)
-encoder = AutoModel(config)
+encoder = AutoModel.from_config(config)
 
-predicate2id, id2predicate = {}, {}
-
-schema_path = args_path['predict_schema_data']
-schema_path = os.path.join(cur_dir_path, schema_path)
-
-with open(schema_path, "r", encoding="utf-8") as f:
-    lines=f.readlines()
-    for data in lines:
-        data=json.loads(data)
-        for entity in data["relationMentions"]:
-            if entity["label"] not in predicate2id and entity["label"] != "NA":
-                id2predicate[len(predicate2id)] = entity["label"]
-                predicate2id[entity["label"]] = len(predicate2id)
-            if entity["label"] not in dict_num:
-                dict_num[entity["label"]]=1
-            else:
-                dict_num[entity["label"]]+=1
+predicate2id = {'traffic_in': 0, 'sell_drugs_to': 1, 'posess': 2, 'provide_shelter_for': 3}
+id2predicate = {0: 'traffic_in', 1: 'sell_drugs_to', 2: 'posess', 3: 'provide_shelter_for'}
 
 mention_detect = CoPredictor(2, hid_size=config.hidden_size,
                              biaffine_size=config.hidden_size,
@@ -126,7 +124,6 @@ class ERENet(nn.Module):
 net = ERENet(encoder, mention_detect, s_o_head, s_o_tail).to(device)
 output_path = os.path.join(cur_dir_path, args_path['output_path'])
 net.load_state_dict(torch.load(output_path))
-net.float()
 # net.half()
 # torch.save(net.state_dict(), "./fp1fangerenet.pth")
 # net.load_state_dict(torch.load('./fp1fangerenet.pth'))
@@ -135,15 +132,17 @@ net.eval()
 output_file = os.path.join(cur_dir_path, args.output_file)
 print(output_file, '===output_file===')
 
+from tqdm import tqdm
+
 text_list = []
 with open(args.input_file, encoding="utf-8") as f, open(output_file, 'w', encoding="utf-8") as wr:
     lines = f.readlines()
-    for data in lines:
+    for data in (lines):
         data = data.strip()
         text_list.append(data)
     # ids=[json.loads(text.rstrip())["ID"] for text in f.readlines()]
-    for text in text_list:
-        mapping = tokenizer(text.lower(), return_offsets_mapping=True, max_length=512,add_special_tokens=True)["offset_mapping"]
+    for text in tqdm(text_list):
+        mapping = tokenizer(text.lower(), return_offsets_mapping=True, max_length=maxlen,add_special_tokens=True)["offset_mapping"]
         threshold = 0.0
         encoder_txt = tokenizer.encode_plus(text.lower(), max_length=512)
         input_ids = torch.tensor(encoder_txt["input_ids"]).long().unsqueeze(0).to(device)
