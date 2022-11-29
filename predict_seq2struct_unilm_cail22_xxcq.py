@@ -104,7 +104,8 @@ class Predict(object):
 
                 elif args_path['model_type'] == 'roformer':
                     from albert_models.nets.unilm_roformer import RoFormerForCausalLM
-                    from roformer import RoFormerConfig
+                    # from roformer import RoFormerConfig
+                    from albert_models.configuration_roformer import RoFormerConfig
 
                     self.config = RoFormerConfig.from_pretrained(config_path)
                     self.config.is_decoder = True

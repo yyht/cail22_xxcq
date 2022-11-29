@@ -69,7 +69,9 @@ class Predict(object):
 
         print(args_path["model_path"], '=====')
 
-        from roformer import RoFormerModel, RoFormerConfig
+        from albert_models.modeling_roformer import RoFormerModel
+        from albert_models.configuration_roformer import RoFormerConfig
+        # from roformer import RoFormerModel, RoFormerConfig
         config = RoFormerConfig.from_pretrained(args_path["model_path"])
         encoder = RoFormerModel(config=config)
 
