@@ -121,11 +121,11 @@ class Predict(object):
         print(output_path, '==output_path==')
         import os
         try:
-            ckpt = torch.load(os.path.join(output_path, 'spo_conv_asa.pth.{}'.format(eo)))
+            ckpt = torch.load(os.path.join(output_path, 'spo_conv_asa.pth.{}.fp16'.format(eo)))
             net.load_state_dict(ckpt)
             print('===succeeded in loading fp16===')
         except:
-            ckpt = torch.load(os.path.join(output_path, 'spo_conv_asa.pth.{}'.format(eo)))
+            ckpt = torch.load(os.path.join(output_path, 'spo_conv_asa.pth.{}.fp16'.format(eo)))
             new_ckpt = {}
             for key in ckpt:
                 name = key.split('.')
