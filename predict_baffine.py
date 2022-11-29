@@ -71,9 +71,10 @@ class Predict(object):
         device = "cuda" if torch.cuda.is_available() else "cpu"
 
         args_path = dict(dict(con.items('paths')), **dict(con.items("para")))
-
-        model_path = args_path['model_path']
-        vocab_path = args_path['vocab_path']
+        
+        vocab_path = os.path.join(cur_dir_path, args_path['vocab_path'])
+        model_path = os.path.join(cur_dir_path, args_path['model_path'])
+        
         maxlen = con.getint('para', 'maxlen')
         batch_size = con.getint('para', 'batch_size')
         lr = con.getfloat('para', 'lr')

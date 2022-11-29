@@ -78,7 +78,8 @@ class Predict(object):
         args_path = dict(dict(con.items('paths')), **dict(con.items("para")))
         # tokenizer = BertTokenizerFast.from_pretrained('hfl/chinese-roberta-wwm-ext', do_lower_case=True)
         
-        tokenizer = BertTokenizerFast.from_pretrained(args_path['vocab_path'], do_lower_case=True)
+        vocab_path = os.path.join(cur_dir_path, args_path['vocab_path'])
+        tokenizer = BertTokenizerFast.from_pretrained(vocab_path, do_lower_case=True)
 
         print(tokenizer.tokenize('我是中国人[SEP]'))
 
@@ -261,9 +262,10 @@ class Predict(object):
             return output_list
 
         output_path = os.path.join(cur_dir_path, args_path['output_path'])
+        config_path = os.path.join(cur_dir_path, args_path['config_path'])
 
         device = torch.device("cuda:0")
-        net = MyUniLM(config_path=args_path["config_path"], 
+        net = MyUniLM(config_path=config_path, 
                       model_path='', 
                       eos_token_id=tokenizer.sep_token_id)
         net.to(device)

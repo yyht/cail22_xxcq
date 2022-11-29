@@ -62,7 +62,8 @@ class Predict(object):
         # try:
         #     tokenizer = BertTokenizerFast.from_pretrained(args_path["model_path"], do_lower_case=True)
         # except:
-        tokenizer = BertTokenizerFast.from_pretrained(args_path["vocab_path"], do_lower_case=True)
+        vocab_path = os.path.join(cur_dir_path, args_path['vocab_path'])
+        tokenizer = BertTokenizerFast.from_pretrained(vocab_path, do_lower_case=True)
 
         tokenizer.add_special_tokens({
                             "additional_special_tokens": ['[CLS]', '[SEP]']})
@@ -72,7 +73,8 @@ class Predict(object):
         from albert_models.modeling_roformer import RoFormerModel
         from albert_models.configuration_roformer import RoFormerConfig
         # from roformer import RoFormerModel, RoFormerConfig
-        config = RoFormerConfig.from_pretrained(args_path["model_path"])
+        model_path = os.path.join(cur_dir_path, args_path['model_path'])
+        config = RoFormerConfig.from_pretrained(model_path)
         encoder = RoFormerModel(config=config)
 
         idx = 0
