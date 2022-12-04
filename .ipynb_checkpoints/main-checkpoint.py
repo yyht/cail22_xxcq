@@ -34,13 +34,21 @@ sys.path.extend([cur_dir_path])
 
 # unilm_predict(args_path)
 
+# con = configparser.ConfigParser()
+# con_path = os.path.join(cur_dir_path, './my_config/mengzi_t5_base.ini')
+# con.read(con_path, encoding='utf8')
+
+# args_path = dict(dict(con.items('paths')), **dict(con.items("para")))
+
+# t5_predict(args_path)
+
 con = configparser.ConfigParser()
-con_path = os.path.join(cur_dir_path, './my_config/mengzi_t5_base.ini')
+con_path = os.path.join(cur_dir_path, './my_config/unilm_base_v4.ini')
 con.read(con_path, encoding='utf8')
 
 args_path = dict(dict(con.items('paths')), **dict(con.items("para")))
 
-t5_predict(args_path)
+unilm_predict(args_path)
 
 
 
@@ -84,7 +92,8 @@ valid_sub_path = [
     'baffine_v1.json',
     'roformer_negative_learning.json',
     'unilm_roformer_v4.json',
-    'mengzi_t5_base.json'
+    'mengzi_t5_base.json',
+    'unilm_roberta_base_v4.json'
 ]
 
 data_cnt = 0
