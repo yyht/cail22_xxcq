@@ -931,10 +931,10 @@ ROFORMER_INPUTS_DOCSTRING = r"""
 """
 
 
-@add_start_docstrings(
-    "The bare RoFormer Model transformer outputting raw hidden-states without any specific head on top.",
-    ROFORMER_START_DOCSTRING,
-)
+# @add_start_docstrings(
+#     "The bare RoFormer Model transformer outputting raw hidden-states without any specific head on top.",
+#     ROFORMER_START_DOCSTRING,
+# )
 class RoFormerModel(RoFormerPreTrainedModel):
     """
     The model can behave as an encoder (with only self-attention) as well as a decoder, in which case a layer of
@@ -978,15 +978,15 @@ class RoFormerModel(RoFormerPreTrainedModel):
         for layer, heads in heads_to_prune.items():
             self.encoder.layer[layer].attention.prune_heads(heads)
 
-    @add_start_docstrings_to_model_forward(
-        ROFORMER_INPUTS_DOCSTRING.format("batch_size, sequence_length")
-    )
-    @add_code_sample_docstrings(
-        processor_class=_TOKENIZER_FOR_DOC,
-        checkpoint=_CHECKPOINT_FOR_DOC,
-        output_type=BaseModelOutputWithPastAndCrossAttentions,
-        config_class=_CONFIG_FOR_DOC,
-    )
+    # @add_start_docstrings_to_model_forward(
+    #     ROFORMER_INPUTS_DOCSTRING.format("batch_size, sequence_length")
+    # )
+    # @add_code_sample_docstrings(
+    #     processor_class=_TOKENIZER_FOR_DOC,
+    #     checkpoint=_CHECKPOINT_FOR_DOC,
+    #     output_type=BaseModelOutputWithPastAndCrossAttentions,
+    #     config_class=_CONFIG_FOR_DOC,
+    # )
     def forward(
         self,
         input_ids=None,
@@ -1156,10 +1156,10 @@ class RoFormerModel(RoFormerPreTrainedModel):
         return extended_attention_mask
 
 
-@add_start_docstrings(
-    """RoFormer Model with a `language modeling` head on top. """,
-    ROFORMER_START_DOCSTRING,
-)
+# @add_start_docstrings(
+#     """RoFormer Model with a `language modeling` head on top. """,
+#     ROFORMER_START_DOCSTRING,
+# )
 class RoFormerForMaskedLM(RoFormerPreTrainedModel):
     def __init__(self, config):
         super().__init__(config)
@@ -1182,15 +1182,15 @@ class RoFormerForMaskedLM(RoFormerPreTrainedModel):
     def set_output_embeddings(self, new_embeddings):
         self.cls.predictions.decoder = new_embeddings
 
-    @add_start_docstrings_to_model_forward(
-        ROFORMER_INPUTS_DOCSTRING.format("batch_size, sequence_length")
-    )
-    @add_code_sample_docstrings(
-        processor_class=_TOKENIZER_FOR_DOC,
-        checkpoint=_CHECKPOINT_FOR_DOC,
-        output_type=MaskedLMOutput,
-        config_class=_CONFIG_FOR_DOC,
-    )
+    # @add_start_docstrings_to_model_forward(
+    #     ROFORMER_INPUTS_DOCSTRING.format("batch_size, sequence_length")
+    # )
+    # @add_code_sample_docstrings(
+    #     processor_class=_TOKENIZER_FOR_DOC,
+    #     checkpoint=_CHECKPOINT_FOR_DOC,
+    #     output_type=MaskedLMOutput,
+    #     config_class=_CONFIG_FOR_DOC,
+    # )
     def forward(
         self,
         input_ids=None,
@@ -1276,10 +1276,10 @@ class RoFormerForMaskedLM(RoFormerPreTrainedModel):
         return {"input_ids": input_ids, "attention_mask": attention_mask}
 
 
-@add_start_docstrings(
-    """RoFormer Model with a `language modeling` head on top for CLM fine-tuning. """,
-    ROFORMER_START_DOCSTRING,
-)
+# @add_start_docstrings(
+#     """RoFormer Model with a `language modeling` head on top for CLM fine-tuning. """,
+#     ROFORMER_START_DOCSTRING,
+# )
 class RoFormerForCausalLM(RoFormerPreTrainedModel):
 
     _keys_to_ignore_on_load_missing = [r"predictions.decoder.bias"]
@@ -1304,12 +1304,12 @@ class RoFormerForCausalLM(RoFormerPreTrainedModel):
     def set_output_embeddings(self, new_embeddings):
         self.cls.predictions.decoder = new_embeddings
 
-    @add_start_docstrings_to_model_forward(
-        ROFORMER_INPUTS_DOCSTRING.format("batch_size, sequence_length")
-    )
-    @replace_return_docstrings(
-        output_type=CausalLMOutputWithPoolingAndCrossAttentions, config_class=_CONFIG_FOR_DOC
-    )
+    # @add_start_docstrings_to_model_forward(
+    #     ROFORMER_INPUTS_DOCSTRING.format("batch_size, sequence_length")
+    # )
+    # @replace_return_docstrings(
+    #     output_type=CausalLMOutputWithPoolingAndCrossAttentions, config_class=_CONFIG_FOR_DOC
+    # )
     def forward(
         self,
         input_ids=None,
@@ -1516,13 +1516,13 @@ class RoFormerClassificationHead(nn.Module):
         return x
 
 
-@add_start_docstrings(
-    """
-    RoFormer Model transformer with a sequence classification/regression head on top (a linear layer on top of the
-    pooled output) e.g. for GLUE tasks.
-    """,
-    ROFORMER_START_DOCSTRING,
-)
+# @add_start_docstrings(
+#     """
+#     RoFormer Model transformer with a sequence classification/regression head on top (a linear layer on top of the
+#     pooled output) e.g. for GLUE tasks.
+#     """,
+#     ROFORMER_START_DOCSTRING,
+# )
 class RoFormerForSequenceClassification(RoFormerPreTrainedModel):
     def __init__(self, config):
         super().__init__(config)
@@ -1533,15 +1533,15 @@ class RoFormerForSequenceClassification(RoFormerPreTrainedModel):
         # Initialize weights and apply final processing
         self.post_init()
 
-    @add_start_docstrings_to_model_forward(
-        ROFORMER_INPUTS_DOCSTRING.format("batch_size, sequence_length")
-    )
-    @add_code_sample_docstrings(
-        processor_class=_TOKENIZER_FOR_DOC,
-        checkpoint=_CHECKPOINT_FOR_DOC,
-        output_type=SequenceClassifierOutput,
-        config_class=_CONFIG_FOR_DOC,
-    )
+    # @add_start_docstrings_to_model_forward(
+    #     ROFORMER_INPUTS_DOCSTRING.format("batch_size, sequence_length")
+    # )
+    # @add_code_sample_docstrings(
+    #     processor_class=_TOKENIZER_FOR_DOC,
+    #     checkpoint=_CHECKPOINT_FOR_DOC,
+    #     output_type=SequenceClassifierOutput,
+    #     config_class=_CONFIG_FOR_DOC,
+    # )
     def forward(
         self,
         input_ids=None,
@@ -1614,13 +1614,13 @@ class RoFormerForSequenceClassification(RoFormerPreTrainedModel):
         )
 
 
-@add_start_docstrings(
-    """
-    RoFormer Model with a multiple choice classification head on top (a linear layer on top of the pooled output and a
-    softmax) e.g. for RocStories/SWAG tasks.
-    """,
-    ROFORMER_START_DOCSTRING,
-)
+# @add_start_docstrings(
+#     """
+#     RoFormer Model with a multiple choice classification head on top (a linear layer on top of the pooled output and a
+#     softmax) e.g. for RocStories/SWAG tasks.
+#     """,
+#     ROFORMER_START_DOCSTRING,
+# )
 class RoFormerForMultipleChoice(RoFormerPreTrainedModel):
     def __init__(self, config):
         super().__init__(config)
@@ -1632,15 +1632,15 @@ class RoFormerForMultipleChoice(RoFormerPreTrainedModel):
         # Initialize weights and apply final processing
         self.post_init()
 
-    @add_start_docstrings_to_model_forward(
-        ROFORMER_INPUTS_DOCSTRING.format("batch_size, num_choices, sequence_length")
-    )
-    @add_code_sample_docstrings(
-        processor_class=_TOKENIZER_FOR_DOC,
-        checkpoint=_CHECKPOINT_FOR_DOC,
-        output_type=MultipleChoiceModelOutput,
-        config_class=_CONFIG_FOR_DOC,
-    )
+    # @add_start_docstrings_to_model_forward(
+    #     ROFORMER_INPUTS_DOCSTRING.format("batch_size, num_choices, sequence_length")
+    # )
+    # @add_code_sample_docstrings(
+    #     processor_class=_TOKENIZER_FOR_DOC,
+    #     checkpoint=_CHECKPOINT_FOR_DOC,
+    #     output_type=MultipleChoiceModelOutput,
+    #     config_class=_CONFIG_FOR_DOC,
+    # )
     def forward(
         self,
         input_ids=None,
@@ -1720,13 +1720,13 @@ class RoFormerForMultipleChoice(RoFormerPreTrainedModel):
         )
 
 
-@add_start_docstrings(
-    """
-    RoFormer Model with a token classification head on top (a linear layer on top of the hidden-states output) e.g. for
-    Named-Entity-Recognition (NER) tasks.
-    """,
-    ROFORMER_START_DOCSTRING,
-)
+# @add_start_docstrings(
+#     """
+#     RoFormer Model with a token classification head on top (a linear layer on top of the hidden-states output) e.g. for
+#     Named-Entity-Recognition (NER) tasks.
+#     """,
+#     ROFORMER_START_DOCSTRING,
+# )
 class RoFormerForTokenClassification(RoFormerPreTrainedModel):
     def __init__(self, config):
         super().__init__(config)
@@ -1739,15 +1739,15 @@ class RoFormerForTokenClassification(RoFormerPreTrainedModel):
         # Initialize weights and apply final processing
         self.post_init()
 
-    @add_start_docstrings_to_model_forward(
-        ROFORMER_INPUTS_DOCSTRING.format("batch_size, sequence_length")
-    )
-    @add_code_sample_docstrings(
-        processor_class=_TOKENIZER_FOR_DOC,
-        checkpoint=_CHECKPOINT_FOR_DOC,
-        output_type=TokenClassifierOutput,
-        config_class=_CONFIG_FOR_DOC,
-    )
+    # @add_start_docstrings_to_model_forward(
+    #     ROFORMER_INPUTS_DOCSTRING.format("batch_size, sequence_length")
+    # )
+    # @add_code_sample_docstrings(
+    #     processor_class=_TOKENIZER_FOR_DOC,
+    #     checkpoint=_CHECKPOINT_FOR_DOC,
+    #     output_type=TokenClassifierOutput,
+    #     config_class=_CONFIG_FOR_DOC,
+    # )
     def forward(
         self,
         input_ids=None,
@@ -1813,13 +1813,13 @@ class RoFormerForTokenClassification(RoFormerPreTrainedModel):
         )
 
 
-@add_start_docstrings(
-    """
-    RoFormer Model with a span classification head on top for extractive question-answering tasks like SQuAD (a linear
-    layers on top of the hidden-states output to compute `span start logits` and `span end logits`).
-    """,
-    ROFORMER_START_DOCSTRING,
-)
+# @add_start_docstrings(
+#     """
+#     RoFormer Model with a span classification head on top for extractive question-answering tasks like SQuAD (a linear
+#     layers on top of the hidden-states output to compute `span start logits` and `span end logits`).
+#     """,
+#     ROFORMER_START_DOCSTRING,
+# )
 class RoFormerForQuestionAnswering(RoFormerPreTrainedModel):
     def __init__(self, config):
         super().__init__(config)
@@ -1833,15 +1833,15 @@ class RoFormerForQuestionAnswering(RoFormerPreTrainedModel):
         # Initialize weights and apply final processing
         self.post_init()
 
-    @add_start_docstrings_to_model_forward(
-        ROFORMER_INPUTS_DOCSTRING.format("batch_size, sequence_length")
-    )
-    @add_code_sample_docstrings(
-        processor_class=_TOKENIZER_FOR_DOC,
-        checkpoint=_CHECKPOINT_FOR_DOC,
-        output_type=QuestionAnsweringModelOutput,
-        config_class=_CONFIG_FOR_DOC,
-    )
+    # @add_start_docstrings_to_model_forward(
+    #     ROFORMER_INPUTS_DOCSTRING.format("batch_size, sequence_length")
+    # )
+    # @add_code_sample_docstrings(
+    #     processor_class=_TOKENIZER_FOR_DOC,
+    #     checkpoint=_CHECKPOINT_FOR_DOC,
+    #     output_type=QuestionAnsweringModelOutput,
+    #     config_class=_CONFIG_FOR_DOC,
+    # )
     def forward(
         self,
         input_ids=None,

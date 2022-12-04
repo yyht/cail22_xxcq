@@ -1,0 +1,1 @@
+# /root/ossutil64 cp -r oss://alg-misc/BERT/bert_pretrain/open_domain/cc_100/raw_json_txt/raw_chat_corpus/ /data/albert.xht/raw_chat_corpus/

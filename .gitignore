@@ -5,3 +5,4 @@
 #albert_data/global_pointer_roformer_duuie_large_all_initial_nodup
 *.pth*
 *.pyc
+transformers/

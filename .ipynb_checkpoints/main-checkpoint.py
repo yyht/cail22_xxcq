@@ -3,27 +3,28 @@
 from predict_cail22_xxcq_roformer_negative_learning import Predict as nlba_predict
 from predict_seq2struct_unilm_cail22_xxcq import Predict as unilm_predict
 from predict_baffine import Predict as baffine_predict
+from predict_seq2struct_t5_cail22_xxcq import Predict as t5_predict
 import configparser
 
 import os, sys
 cur_dir_path = os.path.dirname(__file__)
 sys.path.extend([cur_dir_path])
 
-con = configparser.ConfigParser()
-con_path = os.path.join(cur_dir_path, './my_config/roformer_negative_learning.ini')
-con.read(con_path, encoding='utf8')
+# con = configparser.ConfigParser()
+# con_path = os.path.join(cur_dir_path, './my_config/roformer_negative_learning.ini')
+# con.read(con_path, encoding='utf8')
 
-args_path = dict(dict(con.items('paths')), **dict(con.items("para")))
+# args_path = dict(dict(con.items('paths')), **dict(con.items("para")))
 
-nlba_predict(args_path)
+# nlba_predict(args_path)
 
-con = configparser.ConfigParser()
-con_path = os.path.join(cur_dir_path, './my_config/unilm_roformer_large.ini')
-con.read(con_path, encoding='utf8')
+# con = configparser.ConfigParser()
+# con_path = os.path.join(cur_dir_path, './my_config/unilm_roformer_large.ini')
+# con.read(con_path, encoding='utf8')
 
-args_path = dict(dict(con.items('paths')), **dict(con.items("para")))
+# args_path = dict(dict(con.items('paths')), **dict(con.items("para")))
 
-unilm_predict(args_path)
+# unilm_predict(args_path)
 
 # con = configparser.ConfigParser()
 # con_path = os.path.join(cur_dir_path, './my_config/unilm_large_v6.ini')
@@ -33,22 +34,31 @@ unilm_predict(args_path)
 
 # unilm_predict(args_path)
 
-
 con = configparser.ConfigParser()
-con_path = os.path.join(cur_dir_path, './my_config/baffine_v1.ini')
+con_path = os.path.join(cur_dir_path, './my_config/mengzi_t5_base.ini')
 con.read(con_path, encoding='utf8')
 
 args_path = dict(dict(con.items('paths')), **dict(con.items("para")))
 
-baffine_predict(args_path)
+t5_predict(args_path)
 
-con = configparser.ConfigParser()
-con_path = os.path.join(cur_dir_path, './my_config/baffine_v2.ini')
-con.read(con_path, encoding='utf8')
 
-args_path = dict(dict(con.items('paths')), **dict(con.items("para")))
 
-baffine_predict(args_path)
+# con = configparser.ConfigParser()
+# con_path = os.path.join(cur_dir_path, './my_config/baffine_v1.ini')
+# con.read(con_path, encoding='utf8')
+
+# args_path = dict(dict(con.items('paths')), **dict(con.items("para")))
+
+# baffine_predict(args_path)
+
+# con = configparser.ConfigParser()
+# con_path = os.path.join(cur_dir_path, './my_config/baffine_v2.ini')
+# con.read(con_path, encoding='utf8')
+
+# args_path = dict(dict(con.items('paths')), **dict(con.items("para")))
+
+# baffine_predict(args_path)
 
 import os
 import os
@@ -73,7 +83,8 @@ valid_sub_path = [
     'baffine_v2.json',
     'baffine_v1.json',
     'roformer_negative_learning.json',
-    'unilm_roformer_v4.json'
+    'unilm_roformer_v4.json',
+    'mengzi_t5_base.json'
 ]
 
 data_cnt = 0
@@ -87,7 +98,7 @@ for sub_path in os.listdir(prediction_path):
             content = json.loads(line.strip())
             content['articleId']=str(i)
             if str(i) not in data_dict:
-                if "roberta" in sub_path or "roformer" in sub_path:
+                if "roberta" in sub_path or "roformer" in sub_path or 'mengzi' in sub_path:
                     data_dict[content['articleId']] = {
                         'sentText': content['sentText'],
                         'sentId': content['sentID'],
